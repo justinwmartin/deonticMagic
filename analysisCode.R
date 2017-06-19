@@ -839,7 +839,7 @@ print(fig2)
 
 
 ### Study 2b: Event ratings ####
-d2b <- read.csv("Data/Adult_Ratings_for_Moral_Impossibility_Revision__Dichotomous.csv",stringsAsFactors = F)
+d2b <- read.csv("Data/study2b.csv",stringsAsFactors = F)
 
 print(c(mean(d2b$Age, na.rm=T),sd(d2b$Age, na.rm=T))) 
 d2b$Gender <- factor(c("Male","Female")[d2b$Gender])
