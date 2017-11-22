@@ -292,10 +292,10 @@ d1bl$response[d1bl$response==2] <- -1
 d1b.sums <- ddply(d1bl, c("judgment","violation.type","scenario"), summarise,
                   responses = mean(response, na.rm=TRUE))
 
-d1b.sum$judgment <- factor(c("Wrong","Impossible","Improbable")[d1b.sum$judgment])
-d1b.sum$judgment <- factor(d1b.sum$judgment, levels = c("Impossible","Improbable","Wrong"))
-d1b.sum$violation.type <- factor(c("Moral","Non-violation","Physical","Statistical")[d1b.sum$violation.type])
-d1b.sum$violation.type <- factor(d1b.sum$violation.type, levels=c("Physical","Statistical","Moral","Non-violation"))
+d1b.sums$judgment <- factor(c("Wrong","Impossible","Improbable")[d1b.sums$judgment])
+d1b.sums$judgment <- factor(d1b.sums$judgment, levels = c("Impossible","Improbable","Wrong"))
+d1b.sums$violation.type <- factor(c("Moral","Non-violation","Physical","Statistical")[d1b.sums$violation.type])
+d1b.sums$violation.type <- factor(d1b.sums$violation.type, levels=c("Physical","Statistical","Moral","Non-violation"))
 
 ## This is the highly significant overall interaction for judgment type and violation type (not reported)
 lm1b.1 <- lmer(responses ~ judgment * violation.type + (1|scenario), data=d1b.sums)
@@ -406,20 +406,20 @@ d1b.1 <- left_join(d1.1,d1b.sumsW,by=c("scenario","violation.type"))
 
 ## these are not included in the manuscript, but it's worth noting that they come out as expected
 ## Interactions:
-lm1.i <- lmer(possibility.judgment ~ (moral * age.group) + (probable*age.group) + (possible*age.group) + (1|scenario), data=d1b.1)
+lm1.i <- lmer(possibility.judgment ~ (moral * age.group) + (probable*age.group) + (possible*age.group) + (age.group|scenario), data=d1b.1)
 
 # interaction between age and morality
-lm1.im <- lmer(possibility.judgment ~ (moral + age.group) + (probable*age.group) + (possible*age.group) + (1|scenario), data=d1b.1)
+lm1.im <- lmer(possibility.judgment ~ (moral + age.group) + (probable*age.group) + (possible*age.group) + (age.group|scenario), data=d1b.1)
 anova(lm1.i,lm1.im)
 # interaction with age and probability
-lm1.ip <- lmer(possibility.judgment ~ (moral * age.group) + (probable + age.group) + (possible * age.group) + (1|scenario), data=d1b.1)
-anova(lm1.i,lm1.ip)
-# interaction with age and possibility
-lm1.ipr <- lmer(possibility.judgment ~ (moral * age.group) + (probable * age.group) + (possible + age.group) + (1|scenario), data=d1b.1)
+lm1.ipr <- lmer(possibility.judgment ~ (moral * age.group) + (probable + age.group) + (possible * age.group) + (age.group|scenario), data=d1b.1)
 anova(lm1.i,lm1.ipr)
+# interaction with age and possibility
+lm1.ip <- lmer(possibility.judgment ~ (moral * age.group) + (probable * age.group) + (possible + age.group) + (age.group|scenario), data=d1b.1)
+anova(lm1.i,lm1.ip)
 
 # Here is how you would check for the yet higher-order interaction
-lm1.a0 <- lmer(possibility.judgment ~ (moral * age.group) * (probable*age.group) * (possible*age.group) + (1|scenario), data=d1b.1)
+lm1.a0 <- lmer(possibility.judgment ~ (moral * age.group) * (probable*age.group) * (possible*age.group) + (age.group|scenario), data=d1b.1)
 anova(lm1.a0,lm1.i)
 # NB: the lack of significance here is probably due to a lack of power as there are only 8 data points for each age group * violation type
 
@@ -478,14 +478,14 @@ anova(lm1.a,lm1.ap)
 ## Study 1: differentatiation over development ####
 
 ## age interaction with intersection and physically possible (controlling for event's probability)
-lm3.1 <- lmer(possibility.judgment ~ (intersection * age.group) + (possible * age.group) + (1|scenario), data=d1b.1)
+lm3.1 <- lmer(possibility.judgment ~ (intersection * age.group) + (possible * age.group) + (age.group|scenario), data=d1b.1)
 ## intersection * age interaction
-lm3.2 <- lmer(possibility.judgment ~ (intersection + age.group) + (possible * age.group) + (1|scenario), data=d1b.1)
+lm3.2 <- lmer(possibility.judgment ~ (intersection + age.group) + (possible * age.group) + (age.group|scenario), data=d1b.1)
 anova(lm3.1,lm3.2)
 ## X^2(2) = 6.88, p = .032
 
 ## possibility * age interaction
-lm3.3 <- lmer(possibility.judgment ~ (intersection * age.group) + (possible + age.group) + (1|scenario), data=d1b.1)
+lm3.3 <- lmer(possibility.judgment ~ (intersection * age.group) + (possible + age.group) + (age.group|scenario), data=d1b.1)
 anova(lm3.1,lm3.3)
 ## X^2(2) = 29.5, p < .001
 
@@ -881,10 +881,10 @@ d2bl$response[d2bl$response==2] <- -1
 d2b.sums <- ddply(d2bl, c("judgment","violation.type","scenario"), summarise,
                   responses = mean(response, na.rm=TRUE))
 
-d2b.sum$judgment <- factor(c("Wrong","Impossible","Improbable")[d2b.sum$judgment])
-d2b.sum$judgment <- factor(d2b.sum$judgment, levels = c("Impossible","Improbable","Wrong"))
-d2b.sum$violation.type <- factor(c("Moral","Non-violation","Physical","Statistical")[d2b.sum$violation.type])
-d2b.sum$violation.type <- factor(d2b.sum$violation.type, levels=c("Physical","Statistical","Moral","Non-violation"))
+d2b.sums$judgment <- factor(c("Wrong","Impossible","Improbable")[d2b.sums$judgment])
+d2b.sums$judgment <- factor(d2b.sums$judgment, levels = c("Impossible","Improbable","Wrong"))
+d2b.sums$violation.type <- factor(c("Moral","Non-violation","Physical","Statistical")[d2b.sums$violation.type])
+d2b.sums$violation.type <- factor(d2b.sums$violation.type, levels=c("Physical","Statistical","Moral","Non-violation"))
 
 ## This is the highly significant overall interaction for judgment type and violation type (not reported)
 lm2b.1 <- lmer(responses ~ judgment * violation.type + (1|scenario), data=d2b.sums)
@@ -994,19 +994,19 @@ d2b.1 <- left_join(d2.1,d2b.sumsW,by=c("scenario","violation.type"))
 
 ## these are not included in the manuscript, but it's worth noting that they come out as expected
 ## Interactions:
-lm2.i <- lmer(mean ~ (moral * age.group) + (probable*age.group) + (possible*age.group) + (1|scenario), data=d2b.1)
+lm2.i <- lmer(mean ~ (moral * age.group) + (probable*age.group) + (possible*age.group) + (age.group|scenario), data=d2b.1)
 
 # interaction between age and morality
-lm2.im <- lmer(mean ~ (moral + age.group) + (probable*age.group) + (possible*age.group) + (1|scenario), data=d2b.1)
+lm2.im <- lmer(mean ~ (moral + age.group) + (probable*age.group) + (possible*age.group) + (age.group|scenario), data=d2b.1)
 anova(lm2.i,lm2.im)
 # interaction with age and probability
-lm2.ip <- lmer(mean ~ (moral * age.group) + (probable + age.group) + (possible * age.group) + (1|scenario), data=d2b.1)
+lm2.ip <- lmer(mean ~ (moral * age.group) + (probable + age.group) + (possible * age.group) + (age.group1|scenario), data=d2b.1)
 anova(lm2.i,lm2.ip)
 # interaction with age and possibility
-lm2.ipr <- lmer(mean ~ (moral * age.group) + (probable * age.group) + (possible + age.group) + (1|scenario), data=d2b.1)
+lm2.ipr <- lmer(mean ~ (moral * age.group) + (probable * age.group) + (possible + age.group) + (age.group|scenario), data=d2b.1)
 anova(lm2.i,lm2.ipr)
 # Here is how you would check for the yet higher-order interaction
-lm2.a0 <- lmer(mean ~ (moral * age.group) * (probable*age.group) * (possible*age.group) + (1|scenario), data=d2b.1)
+lm2.a0 <- lmer(mean ~ (moral * age.group) * (probable*age.group) * (possible*age.group) + (age.group|scenario), data=d2b.1)
 anova(lm2.a0,lm2.i)
 
 ## these are the simple tests using the ratings that are reported in the paper: 
@@ -1082,14 +1082,14 @@ anova(lm2.a,lm2.ap)
 ## Study 2: Differentiating across development ####
 
 ## age interaction with intersection and physically possible
-lm3.1 <- lmer(mean ~ (intersection * age.group) + (possible * age.group) + probable + (1|scenario), data=d2b.1)
+lm3.1 <- lmer(mean ~ (intersection * age.group) + (possible * age.group) + probable + (age.group|scenario), data=d2b.1)
 ## intersection * age interaction
-lm3.2 <- lmer(mean ~ (intersection + age.group) + (possible * age.group) + probable + (1|scenario), data=d2b.1)
+lm3.2 <- lmer(mean ~ (intersection + age.group) + (possible * age.group) + probable + (age.group|scenario), data=d2b.1)
 anova(lm3.1,lm3.2)
 ## X^2(1) = 10.74, p = .013
 
 ## possibility * age interaction
-lm3.3 <- lmer(mean ~ (intersection * age.group) + (possible + age.group) + probable + (1|scenario), data=d2b.1)
+lm3.3 <- lmer(mean ~ (intersection * age.group) + (possible + age.group) + probable + (age.group|scenario), data=d2b.1)
 anova(lm3.1,lm3.3)
 ## X^2(1) = 39.57, p < .001
 
